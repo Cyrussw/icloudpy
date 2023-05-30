@@ -4,13 +4,52 @@ from config import *
 import folium
 import os
 
+# iCloud hesabınıza oturum açın
+api = PyiCloudService(username, password)
+
+
+if api.requires_2fa:
+    print("İki faktörlü kimlik doğrulama gerekiyor.")
+    code = input("Onaylı cihazlardan birine gönderilen kodu girin: ")
+    result = api.validate_2fa_code(code)
+    print("Kod doğrulama sonucu: %s" % result)
+
+    if not result:
+        print("Güvenlik kodu doğrulanamadı.")
+        sys.exit(1)
+
+    if not api.is_trusted_session:
+        print("Oturum güvenilir değil. Güvenilirlik isteniyor...")
+        result = api.trust_session()
+        print("Oturum güvenilirlik sonucu: %s" % result)
+
+        if not result:
+            print("Güvenilirlik isteği başarısız oldu. Muhtemelen önümüzdeki haftalarda tekrar kod isteneceksiniz.")
+elif api.requires_2sa:
+    import click
+    print("İki adımlı doğrulama gerekiyor. Güvenilir cihazlarınız şunlardır:")
+
+    devices = api.trusted_devices
+    for i, device in enumerate(devices):
+        print(
+            "  %s: %s" % (i, device.get('deviceName',
+            "SMS gönderildi: %s" % device.get('phoneNumber')))
+        )
+
+    device = click.prompt('Hangi cihazı kullanmak istersiniz?', default=0)
+    device = devices[device]
+    if not api.send_verification_code(device):
+        print("Doğrulama kodu gönderilemedi.")
+        sys.exit(1)
+
+    code = click.prompt('Lütfen doğrulama kodunu girin')
+    if not api.validate_verification_code(device, code):
+        print("Doğrulama kodu doğrulanamadı.")
+        sys.exit(1)
+
 
 def start():
     os.system("cls")
-
-
-# iCloud hesabınıza oturum açın
-api = PyiCloudService(username, password)
 
 
 def viewDevices():
