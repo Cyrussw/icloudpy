@@ -99,7 +99,6 @@ def get_device_location():
                     print("Başarısız.")
 
                 print("Ses çalma komutu gönderildi.")
-                sendMessage = api.devices.sendMessage("Merhaba!")
             elif x == "Hayır":
                 print("Peki iyi günler dilerim efendim.")
 
