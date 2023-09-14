@@ -1,5 +1,4 @@
 from pyicloud import PyiCloudService
-from sairus.config.config import *
 
 import folium
 import sys
