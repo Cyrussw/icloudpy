@@ -64,7 +64,7 @@ def viewDevices():
         print("Cihaz bulunamadı.")
 
 
-def get_device_location():
+def getDeviceLocation():
     devices = api.devices
     print("Lütfen konumunu bulmak istediğiniz cihazı seçiniz.")
     viewDevices()
