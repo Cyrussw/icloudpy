@@ -23,3 +23,4 @@ Merhaba ben Burak sizler için hazırlamış olduğum `iCloudPy` kolaylaştırma
 ## Lisans
 
 Bu proje [MIT](https://opensource.org/licenses/MIT) lisansı ile lisanslanmıştır.
+Legacy Learning Project — Built independently.
